@@ -1,7 +1,7 @@
 package SENA.Clinica.Entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.Date;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.*;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class Chequeos { //clase principal
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; //Id autogenerado
     @Column
-    private String medicalDate; //Fecha de chequeo
+    private LocalDate medicalDate; //Fecha de chequeo
     @Column
     private String area; //área encargada
     

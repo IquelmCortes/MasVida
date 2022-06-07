@@ -41,6 +41,11 @@ public class PacienteServices { //Clase principal
                 chequeo.setId(ch.getId());
                 chequeo.setArea(ch.getArea());
                 chequeo.setMedicalDate(ch.getMedicalDate());
+                Medico medico = ch.getMedico();
+                Medico medicoN = new Medico();
+                medicoN.setName(medico.getName());
+                medicoN.setLastName(medico.getLastName());
+                chequeo.setMedico(medicoN);
                 chN.add(chequeo);
             });
             paci.setCh(chN);
@@ -117,11 +122,102 @@ public class PacienteServices { //Clase principal
         return pacLastN;
     }
 
-    public Optional<Paciente> getPacById(Integer id) { //método de llamado de objeto por id
-        return crud.findById(id);
+    public Paciente getPacByNameAndLastname(String name, String lastName) {
+        List<Paciente> pacEs = crud.findAll();
+        Paciente pac = new Paciente();
+        pacEs.forEach(paci -> {
+            if (paci.getName().equals(name) && paci.getLastName().equals(lastName)) {
+                pac.setId(paci.getId());
+                pac.setName(paci.getName());
+                pac.setLastName(paci.getLastName());
+                pac.setAddress(paci.getAddress());
+                pac.setBirthDay(paci.getBirthDay());
+                pac.setPhone(paci.getPhone());
+                pac.setPopulation(paci.getPopulation());
+                pac.setStateC(paci.getStateC());
+                List<Chequeos> chequeos = paci.getCh();
+                List<Chequeos> chequeosN = new ArrayList<>();
+                chequeos.forEach(cheq -> {
+                    Chequeos chequeo1 = new Chequeos();
+                    chequeo1.setId(cheq.getId());
+                    chequeo1.setArea(cheq.getArea());
+                    chequeo1.setMedicalDate(cheq.getMedicalDate());
+                    chequeosN.add(chequeo1);
+                });
+                pac.setCh(chequeosN);
+                List<Medicamentos> medica = paci.getMed();
+                List<Medicamentos> medicaN = new ArrayList<>();
+                medica.forEach(medi -> {
+                    Medicamentos me = new Medicamentos();
+                    me.setId(medi.getId());
+                    me.setName(medi.getName());
+                    me.setDosis(medi.getDosis());
+                    me.setQuantity(medi.getQuantity());
+                    medicaN.add(me);
+                });
+                pac.setMed(medicaN);
+                Medico medico = paci.getMedico();
+                Medico medicoN = new Medico();
+                medicoN.setId(medico.getId());
+                medicoN.setName(medico.getName());
+                medicoN.setLastName(medico.getLastName());
+                medicoN.setPhone(medico.getPhone());
+                medicoN.setSpecialty(medico.getSpecialty());
+                pac.setMedico(medicoN);
+            }
+        });
+        return pac;
     }
 
-    public void deletePac(Integer id) { //método de eliminación
+    public Paciente getPacById(Integer id) { //método de llamado de objeto por id
+        Optional<Paciente> pacien = crud.findById(id);
+        Paciente paci = new Paciente();
+        paci.setId(pacien.get().getId());
+        paci.setName(pacien.get().getName());
+        paci.setLastName(pacien.get().getLastName());
+        paci.setAddress(pacien.get().getAddress());
+        paci.setBirthDay(pacien.get().getBirthDay());
+        paci.setPhone(pacien.get().getPhone());
+        paci.setPopulation(pacien.get().getPopulation());
+        paci.setStateC(pacien.get().getStateC());
+        List<Chequeos> chequeos = pacien.get().getCh();
+        List<Chequeos> chequeosN = new ArrayList<>();
+        chequeos.forEach(cheq -> {
+            Chequeos chequeo1 = new Chequeos();
+            chequeo1.setId(cheq.getId());
+            chequeo1.setArea(cheq.getArea());
+            chequeo1.setMedicalDate(cheq.getMedicalDate());
+            Medico medico = cheq.getMedico();
+            Medico nmedico = new Medico();
+            nmedico.setName(medico.getName());
+            nmedico.setLastName(medico.getLastName());
+            chequeo1.setMedico(nmedico);
+            chequeosN.add(chequeo1);
+        });
+        paci.setCh(chequeosN);
+        List<Medicamentos> medica = pacien.get().getMed();
+        List<Medicamentos> medicaN = new ArrayList<>();
+        medica.forEach(medi -> {
+            Medicamentos me = new Medicamentos();
+            me.setId(medi.getId());
+            me.setName(medi.getName());
+            me.setDosis(medi.getDosis());
+            me.setQuantity(medi.getQuantity());
+            medicaN.add(me);
+        });
+        paci.setMed(medicaN);
+        Medico medico = pacien.get().getMedico();
+        Medico medicoN = new Medico();
+        medicoN.setId(medico.getId());
+        medicoN.setName(medico.getName());
+        medicoN.setLastName(medico.getLastName());
+        medicoN.setPhone(medico.getPhone());
+        medicoN.setSpecialty(medico.getSpecialty());
+        paci.setMedico(medicoN);
+    return paci;
+}
+
+public void deletePac(Integer id) { //método de eliminación
         crud.deleteById(id);
     }
 }

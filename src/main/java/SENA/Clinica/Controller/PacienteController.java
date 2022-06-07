@@ -3,7 +3,6 @@ package SENA.Clinica.Controller;
 import SENA.Clinica.Entidades.Paciente;
 import SENA.Clinica.Services.PacienteServices;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +28,19 @@ public class PacienteController { //Clase principal
         return service.getPac();
     }
     
-    @GetMapping(path = "/{id}") //Ruta para traer objeto por id
-    public Optional<Paciente> getPacById(@PathVariable Integer id) {
+    @GetMapping(path = "Code/{id}") //Ruta para traer objeto por id
+    public Paciente getPacById(@PathVariable("id") Integer id) {
         return service.getPacById(id);
     }
     
-    @GetMapping(path = "paciente/{lastName}") //Ruta para traer lista de objetos por apellído
+    @GetMapping(path = "/{lastName}") //Ruta para traer lista de objetos por apellído
     public List<Paciente> getPacBylastName(@PathVariable("lastName") String lastName) { //método que consume el servicio con la ruta
         return service.getPacByLastName(lastName);
+    }
+    
+    @GetMapping(path = "/{name}/{lastName}") //Ruta para traer lista de objetos por apellído
+    public Paciente getPacByNameAndLastName(@PathVariable("name") String name, @PathVariable("lastName") String lastName) { //método que consume el servicio con la ruta
+        return service.getPacByNameAndLastname(name, lastName);
     }
     
     @PostMapping(path="/save") //Ruta para guardar objeto
